@@ -1,0 +1,41 @@
+{
+	"name": "obsidian-variables",
+	"version": "1.0.0",
+	"description": "Manage variables in notes and commands for Obsidian",
+	"main": "main.js",
+	"scripts": {
+		"dev": "node esbuild.config.mjs",
+		"build": "tsc -noEmit -skipLibCheck && node esbuild.config.mjs production",
+		"version": "node version-bump.mjs && git add manifest.json versions.json"
+	},
+	"repository": {
+		"type": "git",
+		"url": "https://github.com/yourusername/obsidian-variables"
+	},
+	"keywords": [
+		"obsidian",
+		"plugin",
+		"variables",
+		"commands",
+		"substitution",
+		"automation",
+		"templating",
+		"productivity"
+	],
+	"author": "Real-Fruit-Snacks",
+	"license": "MIT",
+	"bugs": {
+		"url": "https://github.com/yourusername/obsidian-variables/issues"
+	},
+	"homepage": "https://github.com/yourusername/obsidian-variables#readme",
+	"devDependencies": {
+		"@types/node": "^16.11.6",
+		"@typescript-eslint/eslint-plugin": "5.29.0",
+		"@typescript-eslint/parser": "5.29.0",
+		"builtin-modules": "3.3.0",
+		"esbuild": "^0.25.5",
+		"obsidian": "latest",
+		"tslib": "2.4.0",
+		"typescript": "4.7.4"
+	}
+}

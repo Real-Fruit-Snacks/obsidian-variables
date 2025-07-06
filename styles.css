@@ -1,0 +1,575 @@
+/* Styles for the Variables plugin */
+
+/* Main modal styling */
+.variables-modal {
+    max-width: 800px;
+    width: 90vw;
+    max-height: 90vh;
+    overflow-y: auto;
+    overflow-x: hidden;
+    box-sizing: border-box;
+}
+
+.variables-modal h2 {
+    margin-bottom: 20px;
+    color: var(--text-accent);
+    border-bottom: 2px solid var(--background-modifier-border);
+    padding-bottom: 10px;
+}
+
+/* Note context styling */
+.note-context {
+    margin: 10px 0 20px 0;
+    padding: 12px;
+    background: var(--background-secondary);
+    border-radius: 6px;
+    border-left: 3px solid var(--interactive-accent);
+}
+
+.note-info {
+    margin: 0;
+    font-weight: 500;
+    color: var(--text-normal);
+    font-size: 0.95em;
+}
+
+.note-context .warning-text {
+    margin: 8px 0 0 0;
+    color: var(--text-warning);
+    font-style: italic;
+    font-size: 0.9em;
+}
+
+/* Search section */
+.search-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--background-secondary);
+    border-radius: 8px;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.search-section label {
+    display: block;
+    margin-bottom: 8px;
+    font-weight: 500;
+    color: var(--text-normal);
+}
+
+.search-section input {
+    width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    font-size: 14px;
+}
+
+/* Add variable section */
+.variable-add-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    background: var(--background-secondary);
+}
+
+.variable-add-section h3 {
+    margin-bottom: 12px;
+    color: var(--text-accent);
+}
+
+.variable-add-container {
+    display: flex;
+    gap: 10px;
+    align-items: stretch;
+    flex-wrap: wrap;
+}
+
+.variable-add-container input {
+    flex: 1;
+    min-width: 120px;
+    max-width: 100%;
+    padding: 8px 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    font-family: var(--font-monospace);
+    box-sizing: border-box;
+}
+
+.variable-add-container button {
+    padding: 8px 16px;
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: background 0.2s ease;
+}
+
+.variable-add-container button:hover {
+    background: var(--interactive-accent-hover);
+}
+
+/* Template section */
+.template-section {
+    margin-bottom: 20px;
+    padding: 15px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 8px;
+    background: var(--background-secondary);
+}
+
+.template-section h3 {
+    margin-bottom: 12px;
+    color: var(--text-accent);
+}
+
+.template-container {
+    display: flex;
+    flex-direction: column;
+    gap: 10px;
+}
+
+.template-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    background: var(--background-primary);
+    border-radius: 6px;
+    border: 1px solid var(--background-modifier-border);
+}
+
+.template-name {
+    font-weight: 600;
+    color: var(--text-accent);
+    min-width: 150px;
+}
+
+.template-desc {
+    flex: 1;
+    color: var(--text-muted);
+    font-size: 0.9em;
+}
+
+.template-load {
+    padding: 6px 12px;
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background 0.2s ease;
+}
+
+.template-load:hover {
+    background: var(--interactive-accent-hover);
+}
+
+/* Variables section */
+.variables-section {
+    margin-top: 20px;
+}
+
+.variables-header {
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+    margin-bottom: 15px;
+}
+
+.variables-header h3 {
+    margin: 0;
+    color: var(--text-accent);
+}
+
+.variables-actions {
+    display: flex;
+    gap: 8px;
+}
+
+.variables-actions button {
+    padding: 6px 12px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: all 0.2s ease;
+}
+
+.variables-actions button:hover {
+    background: var(--background-modifier-hover);
+}
+
+.export-btn:hover { background: var(--color-green); color: white; }
+.import-btn:hover { background: var(--color-blue); color: white; }
+.clear-btn:hover { background: var(--color-orange); color: white; }
+
+.variables-list {
+    padding-right: 6px; /* allow small scrollbar space */
+}
+
+.variable-item {
+    display: grid !important;
+    grid-template-columns: minmax(max-content, 140px) 1fr auto auto;
+    align-items: center;
+    gap: 12px;
+    width: 100%;
+}
+
+.variable-name {
+    width: auto !important;
+    white-space: nowrap;
+}
+
+.variable-value {
+    width: 100% !important;
+    min-width: 0 !important;
+}
+
+.variable-item:hover {
+    background: var(--background-modifier-hover);
+}
+
+.variable-copy {
+    padding: 6px 12px;
+    background: var(--interactive-normal);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: background 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.variable-copy:hover {
+    background: var(--interactive-hover);
+}
+
+.variable-delete {
+    padding: 6px 12px;
+    background: var(--text-error);
+    color: var(--text-on-accent);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-size: 0.85em;
+    transition: opacity 0.2s ease;
+    flex-shrink: 0;
+    white-space: nowrap;
+}
+
+.variable-delete:hover {
+    opacity: 0.8;
+}
+
+/* Quick insert modal */
+.quick-insert-modal {
+    max-width: 500px;
+    width: 80vw;
+}
+
+.quick-insert-modal h3 {
+    margin-bottom: 15px;
+    color: var(--text-accent);
+}
+
+.quick-insert-modal input {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 15px;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    font-size: 14px;
+}
+
+.quick-variables-list {
+    max-height: 300px;
+    overflow-y: auto;
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    background: var(--background-primary);
+}
+
+.quick-variable-item {
+    display: flex;
+    align-items: center;
+    gap: 12px;
+    padding: 10px;
+    cursor: pointer;
+    border-bottom: 1px solid var(--background-modifier-border);
+    transition: background 0.2s ease;
+}
+
+.quick-variable-item:hover {
+    background: var(--background-modifier-hover);
+}
+
+.quick-variable-item:last-child {
+    border-bottom: none;
+}
+
+.quick-variable-item .var-name {
+    font-family: var(--font-monospace);
+    font-weight: bold;
+    color: var(--text-accent);
+    width: 120px;
+    flex-shrink: 0;
+    word-wrap: break-word;
+    overflow-wrap: break-word;
+}
+
+.quick-variable-item .var-value {
+    flex: 1;
+    color: var(--text-muted);
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
+}
+
+/* Preview modal */
+.preview-modal {
+    max-width: 900px;
+    width: 95vw;
+    max-height: 90vh;
+}
+
+.preview-summary {
+    margin-bottom: 20px;
+    padding: 15px;
+    background: var(--background-secondary);
+    border-radius: 6px;
+    border-left: 4px solid var(--interactive-accent);
+}
+
+.preview-summary p {
+    margin: 5px 0;
+}
+
+.missing-vars {
+    color: var(--text-error);
+    font-weight: 500;
+}
+
+.preview-section {
+    margin-bottom: 20px;
+}
+
+.preview-section h3 {
+    margin-bottom: 10px;
+    color: var(--text-accent);
+}
+
+.preview-code {
+    max-height: 200px;
+    overflow-y: auto;
+    background: var(--code-background);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 4px;
+    padding: 15px;
+    margin: 0;
+}
+
+.preview-code code {
+    font-family: var(--font-monospace);
+    font-size: 0.9em;
+    line-height: 1.4;
+    white-space: pre-wrap;
+    word-wrap: break-word;
+}
+
+.preview-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.preview-buttons button {
+    padding: 8px 16px;
+    background: var(--interactive-accent);
+    color: var(--text-on-accent);
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    transition: background 0.2s ease;
+}
+
+.preview-buttons button:hover {
+    background: var(--interactive-accent-hover);
+}
+
+/* Responsive design */
+@media (max-width: 800px) {
+    .variables-modal {
+        width: 95vw;
+        margin: 10px;
+    }
+    
+    .variable-add-container {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .variable-add-container input {
+        min-width: auto;
+        width: 100%;
+    }
+    
+    .variable-item {
+        flex-wrap: wrap;
+        gap: 8px;
+    }
+    
+    .variable-name {
+        width: 100%;
+        text-align: left;
+        margin-bottom: 4px;
+    }
+    
+    .variable-value {
+        width: 100%;
+        min-width: auto;
+    }
+    
+    .variable-copy,
+    .variable-delete {
+        flex-shrink: 0;
+    }
+    
+    .variables-header {
+        flex-direction: column;
+        gap: 10px;
+        align-items: stretch;
+    }
+    
+    .variables-actions {
+        flex-wrap: wrap;
+        justify-content: center;
+    }
+    
+    .template-item {
+        flex-direction: column;
+        align-items: stretch;
+        gap: 8px;
+    }
+    
+    .template-name {
+        width: auto;
+        text-align: left;
+    }
+    
+    .quick-variable-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .quick-variable-item .var-name {
+        width: 100%;
+        margin-bottom: 4px;
+    }
+}
+
+@media (max-width: 500px) {
+    .variable-item {
+        flex-direction: column;
+        align-items: stretch;
+    }
+    
+    .variables-actions {
+        flex-direction: column;
+    }
+    
+    .preview-buttons {
+        flex-direction: column;
+    }
+}
+
+@media (max-width: 600px) {
+    .variable-item {
+        grid-template-columns: 1fr !important;
+    }
+
+    .variable-copy,
+    .variable-delete {
+        justify-self: start;
+    }
+}
+
+/* Dark mode adjustments */
+.theme-dark .variable-item {
+    box-shadow: 0 1px 3px rgba(0, 0, 0, 0.2);
+}
+
+.theme-dark .preview-code {
+    background: var(--background-primary-alt);
+}
+
+/* ADDED: Confirmation dialog styles */
+.warning-text {
+    color: var(--text-error);
+    font-weight: 500;
+    margin: 10px 0;
+}
+
+.confirmation-buttons {
+    display: flex;
+    gap: 10px;
+    justify-content: flex-end;
+    margin-top: 20px;
+}
+
+.confirmation-buttons button {
+    padding: 8px 16px;
+    border: none;
+    border-radius: 4px;
+    cursor: pointer;
+    font-weight: 500;
+    transition: all 0.2s ease;
+}
+
+.confirmation-buttons button:first-child {
+    background: var(--interactive-normal);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+}
+
+.confirmation-buttons button:first-child:hover {
+    background: var(--interactive-hover);
+}
+
+.warning-button {
+    background: var(--text-error) !important;
+    color: var(--text-on-accent) !important;
+}
+
+.warning-button:hover {
+    opacity: 0.8 !important;
+}
+
+/* --- OVERRIDES TO PREVENT HORIZONTAL OVERFLOW --- */
+.variables-modal,
+.variables-modal * {
+    box-sizing: border-box;
+}
+
+.variables-list,
+.variables-list .variable-item {
+    width: 100%;
+    overflow-x: hidden;
+}
+
+.variable-item {
+    flex-wrap: wrap;
+} 
