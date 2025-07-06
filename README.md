@@ -1,153 +1,268 @@
-# Obsidian Variables Plugin
+# Variables Plugin for Obsidian
 
-A powerful plugin for Obsidian that helps you manage and substitute variables in your notes and commands.
+<div align="center">
 
-## 🚀 Features
+![Variables Plugin](https://img.shields.io/badge/Obsidian-Variables-blueviolet?style=for-the-badge&logo=obsidian)
+![Version](https://img.shields.io/badge/Version-1.0.0-blue?style=for-the-badge)
+![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 
-- **Variable Management**: Easy-to-use modal for creating and managing variables
-- **Quick Substitution**: Replace variables in selected text or entire notes
-- **Auto-extraction**: Automatically detect and create variables while typing
-- **Variable Preview**: Preview substitutions before applying them
-- **Quick Insert**: Fast variable insertion with search and filtering
-- **Import/Export**: Share variable definitions via clipboard
-- **Pre-loaded Variables**: Comes with common variables ready to use
-- **Status Bar Integration**: Track your variable count at a glance
+**Transform your workflow with organized, multi-group variable management**
+
+*Never lose track of your variables again!*
+
+</div>
+
+## 📋 Table of Contents
+
+- [Overview](#-overview)
+- [Key Features](#-key-features)
+- [Installation](#-installation)
+- [Quick Start](#-quick-start)
+- [Usage Guide](#-usage-guide)
+- [Multi-Group Management](#-multi-group-management)
+- [Commands & Shortcuts](#-commands--shortcuts)
+- [Configuration](#-configuration)
+
+- [Contributing](#-contributing)
+- [Support](#-support)
+- [License](#-license)
+
+## 🎯 Overview
+
+The Variables plugin revolutionizes how you manage variables in Obsidian by introducing **multi-group organization**. Perfect for penetration testers managing different targets, developers handling multiple environments, writers tracking character details, or anyone who needs organized, reusable text substitutions.
+
+### Why Variables Plugin?
+
+- **🏷️ Multi-Group Organization** - Organize variables by context, project, or target
+- **🔄 Seamless Switching** - Instantly switch between different variable sets
+- **🎨 Intuitive Interface** - Beautiful, user-friendly modals and management
+- **⚡ Lightning Fast** - Quick insert, auto-detection, and instant substitution
+- **📦 Template System** - Define templates for new groups
+- **🔧 Powerful Operations** - Extract, substitute, preview, and manage with ease
+
+## ✨ Key Features
+
+### 🏗️ **Multi-Group Variable Management**
+- **Organize variables into groups** for different contexts (targets, projects, environments)
+- **Switch between groups instantly** with dropdown selection
+- **Group operations**: Create, rename, delete, and duplicate groups
+- **Template system**: Define default variables for new groups
+- **Migration safe**: Existing variables automatically migrate to "Default" group
+
+### 🚀 **Smart Variable Operations**
+- **`$VariableName` syntax** - Clean, intuitive variable references
+- **Auto-detection** - Variables recognized as you type
+- **Substitute & Extract** - Replace variables or extract new ones from text
+- **Preview mode** - See changes before applying them
+- **Import/Export** - Share variable groups via JSON
+
+### 🎨 **Enhanced User Experience**
+- **Variable Manager** - Comprehensive group and variable management
+- **Quick Insert Modal** - Rapid variable insertion with search (Ctrl+Shift+V)
+- **Status Bar Integration** - Shows active group and variable count
+- **Empty Variable Highlighting** - Visual indicators for missing values
+- **Ribbon Icon** - Easy access to Variable Manager
 
 ## 📦 Installation
 
-### From Obsidian Community Plugins
+### From Obsidian Community Plugins (Recommended)
 
-1. Open Obsidian Settings
-2. Go to Community Plugins
-3. Disable Safe Mode if needed
-4. Browse Community Plugins
-5. Search for "Variables"
-6. Install and enable the plugin
+1. Open **Settings** in Obsidian
+2. Navigate to **Community Plugins**
+3. Disable **Safe Mode** if enabled
+4. Click **Browse** and search for "**Variables**"
+5. **Install** and **Enable** the plugin
+
+### Manual Installation
+
+1. Download the latest release from [GitHub Releases](https://github.com/Real-Fruit-Snacks/obsidian-variables/releases)
+2. Extract to your vault's plugins folder: `VaultFolder/.obsidian/plugins/variables/`
+3. Reload Obsidian and enable the plugin
+
+## 🚀 Quick Start
+
+### 1. **Access the Variable Manager**
+- Click the **Variables ribbon icon** (dollar sign)
+- Or use **Command Palette**: "Open Variable Manager"
+
+### 2. **Create Your First Group**
+- Click "**New Group**" to create a project-specific group
+- Name it (e.g., "Web App Testing", "Client Project", "Research Notes")
+
+### 3. **Add Variables**
+- Click "**Add Variable**" in your group
+- Use format: `$VariableName` with your desired value
+- Example: `$TargetIP` → `192.168.1.100`
+
+### 4. **Use Variables in Notes**
+- Write notes using `$VariableName` format
+- Example: `$TargetIP`, `$TargetDomain`, `$Username`
+- Variables work in any text content
+
+### 5. **Substitute Variables**
+- Select text with variables
+- Use **Command Palette**: "Substitute Variables in Selection"
+- Or substitute entire note: "Substitute All Variables in Note"
+
+## 📚 Usage Guide
+
+### Creating and Managing Groups
+
+**Groups** help you organize variables by context:
+
+- **Penetration Testing**: Different targets or clients
+- **Development**: Staging, production, development environments  
+- **Writing**: Different stories, characters, or settings
+- **Research**: Various projects or datasets
+
+### Variable Syntax
+
+Variables use the `$VariableName` format:
+- `$TargetIP` - Target IP address
+- `$DatabaseURL` - Database connection string
+- `$CharacterName` - Character name in your story
+- `$ProjectPath` - File system path
+
+### Template System
+
+**Set up templates** for consistent new groups:
+1. Configure your most-used variables in "Edit Template"
+2. Or use "Copy Current Group" to use an existing group as template
+3. New groups automatically populate with template variables
+
+## 🏷️ Multi-Group Management
+
+### Group Operations
+
+| Operation | Description |
+|-----------|-------------|
+| **Create** | Add new variable groups for different contexts |
+| **Switch** | Change active group using dropdown selector |
+| **Rename** | Update group names (except "Default") |
+| **Delete** | Remove groups (except "Default") |
+| **Template** | Set default variables for new groups |
+
+### Example Group Structure
+
+```
+📁 Default (5 variables)
+📁 Web App Testing (12 variables)
+📁 Network Assessment (8 variables)
+📁 Client Project Alpha (15 variables)
+📁 Research Project (6 variables)
+```
+
+### Group-Specific Operations
+
+All variable operations work within the **active group**:
+- Add/edit/delete variables
+- Import/export group data
+- Substitute variables
+- Preview changes
+
+## ⌨️ Commands & Shortcuts
+
+### Core Commands
+
+| Command | Description | Shortcut |
+|---------|-------------|----------|
+| **Open Variable Manager** | Access main interface | `Ctrl+Shift+M` |
+| **Quick Insert Variable** | Fast variable insertion | `Ctrl+Shift+V` |
+| **Substitute Selection** | Replace variables in selection | - |
+| **Substitute All in Note** | Replace all variables in note | - |
+| **Extract Variables** | Auto-detect variables from text | - |
+| **Preview Substitution** | Preview changes before applying | - |
+
+### Variable Manager Features
+
+- **Group selector dropdown** - Switch between groups
+- **Add/Edit/Delete** variables with validation
+- **Import/Export** group data via JSON
+- **Template management** for new groups
+- **Search and filter** variables
+
+## ⚙️ Configuration
+
+### Plugin Settings
+
+| Setting | Description | Default |
+|---------|-------------|---------|
+| **Show Status Bar** | Display active group info | ✅ Enabled |
+| **Auto-Extract Variables** | Detect variables while typing | ✅ Enabled |
+| **Template Variables** | Default variables for new groups | Pre-configured |
 
 ### Pre-loaded Variables
-The plugin comes with these common variables:
 
-| Variable | Default Value | Description |
-|----------|---------------|-------------|
-| `$TargetIP` | `10.0.0.1` | Target IP address |
-| `$TargetDomain` | `example.com` | Target domain name |
-| `$LHOST` | `10.0.0.100` | Local host IP |
-| `$LPORT` | `4444` | Local port number |
+The plugin includes common variables for immediate use:
+
+| Variable | Default Value | Use Case |
+|----------|---------------|----------|
+| `$TargetIP` | `10.0.0.1` | Network/security testing |
+| `$TargetDomain` | `example.com` | Web application testing |
+| `$LHOST` | `10.0.0.100` | Reverse shell connections |
+| `$LPORT` | `4444` | Local port binding |
+| `$Username` | `admin` | Authentication |
+| `$Password` | `password123` | Authentication |
+| `$Wordlist` | `/usr/share/wordlists/rockyou.txt` | Brute force attacks |
+| `$OutputDir` | `/output` | File operations |
 | `$Interface` | `eth0` | Network interface |
-| `$OutputDir` | `/output` | Output directory path |
-| `$Password` | `password123` | Password field |
-| `$Username` | `admin` | Username field |
-| `$Wordlist` | `/usr/share/wordlists/rockyou.txt` | Wordlist file path |
-| `$TargetPort` | `80` | Target port number |
-
-## 🎯 Usage Examples
-
-### Command Templates
-
-```bash
-# Network scanning
-nmap -sV $TargetIP
-
-# Web application testing
-gobuster dir -u http://$TargetDomain -w $Wordlist
-
-# Remote connection
-ssh $Username@$TargetIP
-
-# File operations
-cp $OutputDir/*.txt /backup/
-```
-
-### Basic Workflow
-
-1. **Write your notes** with variable placeholders using `$VariableName` format
-2. **Set variable values** using the Variables Manager (ribbon icon or command palette)
-3. **Substitute variables** using commands or keyboard shortcuts
-4. **Preview changes** before applying them
-
-## ⌨️ Commands
-
-- **Manage Variables**: Open the variables management modal
-- **Substitute Variables in Selection**: Replace variables in selected text
-- **Substitute All Variables in Note**: Replace all variables in the current note
-- **Extract Variables from Selection**: Auto-detect and add new variables
-- **Quick Insert Variable**: Fast variable insertion with search
-- **Preview Variable Substitution**: Preview before applying changes
-
-## 🛠️ Manual Installation
-
-1. Download the latest release
-2. Extract to your vault's plugins folder:
-   ```
-   /path/to/obsidian/vault/.obsidian/plugins/variables/
-   ```
-3. Reload Obsidian
-4. Enable the plugin in Community Plugins settings
-
-### Development Installation
-
-```bash
-git clone https://github.com/Real-Fruit-Snacks/obsidian-variables
-cd obsidian-variables
-npm install
-npm run build
-```
-
-Copy the built files to your plugins directory:
-
-```
-variables/
-├── main.js
-├── manifest.json
-└── styles.css
-```
-
-## ⚙️ Settings
-
-- **Auto-extract variables**: Automatically detect new variables while typing
-- **Show variable count**: Display variable count in the status bar
-- **Reset to defaults**: Restore default variable set
-- **Import/Export**: Manage variable definitions via JSON
-
-### 1. Command Templates
-
-Create reusable command templates with variables:
-
-```markdown
-## Server Setup Commands
-
-### Initial Reconnaissance
-```bash
-nmap -sC -sV $TargetIP
-```
-
-### Service Enumeration  
-```bash
-gobuster dir -u http://$TargetDomain -w $Wordlist -x php,html,txt
-```
-
-### Database Connection
-```bash
-mysql -h $TargetIP -u $Username -p$Password
-```
-```
-
-This allows you to quickly update all your commands by changing variable values instead of manually editing each occurrence.
+| `$TargetPort` | `80` | Service enumeration |
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please feel free to submit a Pull Request.
+We welcome contributions! Here's how you can help:
+
+### 🐛 **Bug Reports**
+- Use our [Issue Template](https://github.com/Real-Fruit-Snacks/obsidian-variables/issues/new?template=bug_report.md)
+- Include steps to reproduce, expected vs actual behavior
+- Provide your Obsidian version and plugin version
+
+### 💡 **Feature Requests**
+- Check [existing requests](https://github.com/Real-Fruit-Snacks/obsidian-variables/issues?q=is%3Aissue+is%3Aopen+label%3Aenhancement)
+- Use our [Feature Request Template](https://github.com/Real-Fruit-Snacks/obsidian-variables/issues/new?template=feature_request.md)
+- Explain the use case and expected behavior
+
+### 🔧 **Development**
+```bash
+# Clone the repository
+git clone https://github.com/Real-Fruit-Snacks/obsidian-variables.git
+cd obsidian-variables
+
+# Install dependencies
+npm install
+
+# Start development mode
+npm run dev
+
+# Build for production
+npm run build
+```
+
+## 📞 Support
+
+### 📚 **Documentation**
+- [GitHub Wiki](https://github.com/Real-Fruit-Snacks/obsidian-variables/wiki)
+- [FAQ](https://github.com/Real-Fruit-Snacks/obsidian-variables/wiki/FAQ)
+
+### 💬 **Community**
+- [GitHub Discussions](https://github.com/Real-Fruit-Snacks/obsidian-variables/discussions)
+- [GitHub Issues](https://github.com/Real-Fruit-Snacks/obsidian-variables/issues)
+
+### 🔗 **Links**
+- **Repository**: [GitHub](https://github.com/Real-Fruit-Snacks/obsidian-variables)
+- **Releases**: [GitHub Releases](https://github.com/Real-Fruit-Snacks/obsidian-variables/releases)
+- **License**: [MIT License](LICENSE)
 
 ## 📄 License
 
 This project is licensed under the MIT License - see the [LICENSE](LICENSE) file for details.
 
-## 🔗 Links
+---
 
-- **Repository**: [GitHub](https://github.com/Real-Fruit-Snacks/obsidian-variables)
-- **Issues**: [GitHub Issues](https://github.com/Real-Fruit-Snacks/obsidian-variables/issues)
-- **Discussions**: [GitHub Discussions](https://github.com/Real-Fruit-Snacks/obsidian-variables/discussions)
+<div align="center">
 
-## 🔒 Security Note
+**Made with ❤️ for the Obsidian community**
 
-This plugin is designed to help manage variables and command templates in your notes and workflows. 
+*Transform your workflow with organized, multi-group variable management*
+
+</div> 
