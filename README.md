@@ -135,18 +135,19 @@ Variables use the `$VariableName` format:
 ### Hover Tooltips
 
 **View variable values instantly** without opening the Variable Manager:
-- **Hover over variables**: Place your cursor over any `$VariableName` in your notes
-- **Instant display**: Variable values appear in a tooltip after a brief delay
-- **Status bar tooltips**: Hover over the status bar to see all variables in the active group
-- **Works everywhere**: Tooltips work in editor view, reading view, and preview mode
+- **Hover over variables**: Place your cursor over any `$VariableName` in your notes to see its current value
+- **Precise detection**: Tooltips only appear when directly hovering over the variable name
+- **Interactive display**: Variable values appear in a styled tooltip after a brief delay
+- **Status bar tooltips**: Hover over the status bar to see all variables in the active group with an interactive, scrollable tooltip
+- **Works everywhere**: Tooltips work in the CodeMirror editor and other text editing contexts
 
 ### Quick Group Switching
 
 **Switch between variable groups seamlessly**:
 - **Status bar cycling**: Right-click the status bar to cycle through groups
 - **Command palette**: Use "Cycle to Next Variable Group" command
-- **Visual indicator**: Status bar shows a small arrow indicating cycling is available
-- **Instant feedback**: Brief notification shows which group you switched to
+- **Visual feedback**: Brief notification shows which group you switched to
+- **Multiple groups**: Only available when you have more than one group
 
 ## 🏷️ Multi-Group Management
 
@@ -186,11 +187,11 @@ All variable operations work within the **active group**:
 |---------|-------------|--------|
 | **Open Variable Manager** | Access main interface | Ribbon icon or Command Palette |
 | **Quick Insert Variable** | Fast variable insertion | Command Palette |
-| **Cycle to Next Variable Group** | Switch between variable groups | Command Palette or Status Bar |
-| **Substitute Selection** | Replace variables in selection | Command Palette |
-| **Substitute All in Note** | Replace all variables in note | Command Palette |
-| **Extract Variables** | Auto-detect variables from text | Command Palette |
-| **Preview Substitution** | Preview changes before applying | Command Palette |
+| **Cycle to Next Variable Group** | Switch between variable groups | Command Palette or Status Bar right-click |
+| **Substitute Variables in Selection/Line** | Replace variables in current selection or line | Command Palette |
+| **Substitute All Variables in File** | Replace all variables in current file | Command Palette |
+| **Extract Variables from Selection/Line** | Auto-detect variables from current selection or line | Command Palette |
+| **Preview Variable Substitutions** | Preview changes before applying | Command Palette |
 
 ### Variable Manager Features
 

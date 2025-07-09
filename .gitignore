@@ -80,4 +80,23 @@ Thumbs.db
 *.swo
 
 # Obsidian specific
-data.json 
+data.json
+
+# Development and temporary files
+*.tmp
+*.temp
+*.bak
+*.backup
+*~
+
+# Debug files
+debug.log
+*.debug
+
+# Test files (if any)
+test-vault/
+test-data/
+*.test.md
+
+# Documentation drafts
+DRAFT_*.md 

@@ -20,7 +20,9 @@
 		"substitution",
 		"automation",
 		"templating",
-		"productivity"
+		"productivity",
+		"hover-tooltips",
+		"multi-group"
 	],
 	"author": "Real-Fruit-Snacks",
 	"license": "MIT",
