@@ -35,8 +35,8 @@ The Variables plugin revolutionizes how you manage variables in Obsidian by intr
 
 - **🏷️ Multi-Group Organization** - Organize variables by context, project, or target
 - **🔄 Seamless Switching** - Instantly switch between different variable sets
-- **🎨 Intuitive Interface** - Beautiful, user-friendly modals and management
-- **⚡ Lightning Fast** - Quick insert, auto-detection, and instant substitution
+- **🎨 Intuitive Interface** - Beautiful, user-friendly modals and hover tooltips
+- **⚡ Lightning Fast** - Quick insert, auto-detection, hover previews, and instant substitution
 - **📦 Template System** - Define templates for new groups
 - **🔧 Powerful Operations** - Extract, substitute, preview, and manage with ease
 
@@ -58,10 +58,11 @@ The Variables plugin revolutionizes how you manage variables in Obsidian by intr
 
 ### 🎨 **Enhanced User Experience**
 - **Variable Manager** - Comprehensive group and variable management
-- **Quick Insert Modal** - Rapid variable insertion with search (Ctrl+Shift+V)
-- **Status Bar Integration** - Shows active group and variable count
+- **Quick Insert Modal** - Rapid variable insertion with search
+- **Hover Tooltips** - See variable values instantly by hovering over `$variables` in notes
+- **Status Bar Integration** - Shows active group and variable count with hover tooltip
 - **Empty Variable Highlighting** - Visual indicators for missing values
-- **Ribbon Icon** - Easy access to Variable Manager
+- **Variable Manager Ribbon Icon** - Easy access to Variable Manager
 
 ## 📦 Installation
 
@@ -82,7 +83,7 @@ The Variables plugin revolutionizes how you manage variables in Obsidian by intr
 ## 🚀 Quick Start
 
 ### 1. **Access the Variable Manager**
-- Click the **Variables ribbon icon** (dollar sign)
+- Click the **Variable Manager ribbon icon** (dollar sign)
 - Or use **Command Palette**: "Open Variable Manager"
 
 ### 2. **Create Your First Group**
@@ -130,6 +131,14 @@ Variables use the `$VariableName` format:
 2. Or use "Copy Current Group" to use an existing group as template
 3. New groups automatically populate with template variables
 
+### Hover Tooltips
+
+**View variable values instantly** without opening the Variable Manager:
+- **Hover over variables**: Place your cursor over any `$VariableName` in your notes
+- **Instant display**: Variable values appear in a tooltip after a brief delay
+- **Status bar tooltips**: Hover over the status bar to see all variables in the active group
+- **Works everywhere**: Tooltips work in editor view, reading view, and preview mode
+
 ## 🏷️ Multi-Group Management
 
 ### Group Operations
@@ -164,14 +173,14 @@ All variable operations work within the **active group**:
 
 ### Core Commands
 
-| Command | Description | Shortcut |
-|---------|-------------|----------|
-| **Open Variable Manager** | Access main interface | `Ctrl+Shift+M` |
-| **Quick Insert Variable** | Fast variable insertion | `Ctrl+Shift+V` |
-| **Substitute Selection** | Replace variables in selection | - |
-| **Substitute All in Note** | Replace all variables in note | - |
-| **Extract Variables** | Auto-detect variables from text | - |
-| **Preview Substitution** | Preview changes before applying | - |
+| Command | Description | Access |
+|---------|-------------|--------|
+| **Open Variable Manager** | Access main interface | Ribbon icon or Command Palette |
+| **Quick Insert Variable** | Fast variable insertion | Command Palette |
+| **Substitute Selection** | Replace variables in selection | Command Palette |
+| **Substitute All in Note** | Replace all variables in note | Command Palette |
+| **Extract Variables** | Auto-detect variables from text | Command Palette |
+| **Preview Substitution** | Preview changes before applying | Command Palette |
 
 ### Variable Manager Features
 
@@ -187,7 +196,8 @@ All variable operations work within the **active group**:
 
 | Setting | Description | Default |
 |---------|-------------|---------|
-| **Show Status Bar** | Display active group info | ✅ Enabled |
+| **Show Status Bar** | Display active group info with hover tooltip | ✅ Enabled |
+| **Hover Tooltips** | Show variable values on hover | ✅ Enabled |
 | **Auto-Extract Variables** | Detect variables while typing | ✅ Enabled |
 | **Template Variables** | Default variables for new groups | Pre-configured |
 

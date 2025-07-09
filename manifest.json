@@ -3,7 +3,7 @@
 	"name": "Variables",
 	"version": "1.0.0",
 	"minAppVersion": "0.15.0",
-	"description": "Manage and substitute variables in your notes and commands with group support",
+	"description": "Multi-group variable management with hover tooltips, templates, and seamless $variable substitution for organized note-taking",
 	"author": "Real-Fruit-Snacks",
 	"authorUrl": "https://github.com/Real-Fruit-Snacks",
 	"fundingUrl": "https://github.com/Real-Fruit-Snacks/obsidian-variables",

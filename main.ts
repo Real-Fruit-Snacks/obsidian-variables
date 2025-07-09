@@ -512,6 +512,153 @@ const PLUGIN_CSS = `
     opacity: 0.8;
 }
 
+/* VARIABLE HOVER TOOLTIPS */
+.variable-tooltip {
+    position: fixed;
+    z-index: 10000;
+    background: var(--background-primary);
+    color: var(--text-normal);
+    border: 1px solid var(--background-modifier-border);
+    border-radius: 6px;
+    padding: 8px 12px;
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    line-height: 1.4;
+    max-width: 300px;
+    word-wrap: break-word;
+    box-shadow: var(--shadow-s);
+    transition: opacity 0.2s ease;
+}
+
+.variable-tooltip:hover {
+    box-shadow: var(--shadow-l);
+    transform: translateY(-1px);
+}
+
+.variable-tooltip-header {
+    font-weight: bold;
+    color: var(--text-accent);
+    margin-bottom: 4px;
+}
+
+.variable-tooltip-value {
+    color: var(--text-normal);
+    white-space: pre-wrap;
+}
+
+.variable-tooltip-empty {
+    color: var(--text-error);
+    font-style: italic;
+}
+
+.variable-tooltip-group {
+    color: var(--text-muted);
+    font-size: 10px;
+    margin-top: 4px;
+    padding-top: 4px;
+    border-top: 1px solid var(--background-modifier-border);
+}
+
+/* STATUS BAR TOOLTIP */
+.status-bar-tooltip {
+    min-width: 320px;
+    max-width: 450px;
+    max-height: 400px;
+    overflow-y: auto;
+    overflow-x: hidden;
+    padding: 12px 16px;
+    line-height: 1.4;
+    scroll-behavior: smooth;
+}
+
+.status-bar-tooltip::-webkit-scrollbar {
+    width: 8px;
+}
+
+.status-bar-tooltip::-webkit-scrollbar-track {
+    background: var(--background-secondary);
+    border-radius: 4px;
+}
+
+.status-bar-tooltip::-webkit-scrollbar-thumb {
+    background: var(--background-modifier-border);
+    border-radius: 4px;
+}
+
+.status-bar-tooltip::-webkit-scrollbar-thumb:hover {
+    background: var(--text-muted);
+}
+
+.status-bar-tooltip .variable-tooltip-header {
+    font-size: 14px;
+    font-weight: bold;
+    color: var(--text-accent);
+    margin-bottom: 12px;
+    padding-bottom: 8px;
+    border-bottom: 2px solid var(--background-modifier-border);
+}
+
+.status-bar-var-item {
+    display: grid;
+    grid-template-columns: minmax(90px, auto) 1fr;
+    gap: 12px;
+    margin-bottom: 8px;
+    padding: 6px 0;
+    align-items: center;
+    border-bottom: 1px solid var(--background-modifier-border-hover);
+}
+
+.status-bar-var-item:last-of-type {
+    border-bottom: none;
+    margin-bottom: 0;
+}
+
+.status-bar-var-item .variable-tooltip-header {
+    font-family: var(--font-monospace);
+    font-weight: bold;
+    font-size: 12px;
+    color: var(--text-accent);
+    background: var(--code-background);
+    padding: 3px 6px;
+    border-radius: 3px;
+    margin: 0;
+    border-bottom: none;
+    white-space: nowrap;
+    overflow: hidden;
+    text-overflow: ellipsis;
+}
+
+.status-bar-var-item .variable-tooltip-value {
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    color: var(--text-normal);
+    word-break: break-word;
+    padding: 3px 6px;
+    background: var(--background-secondary);
+    border-radius: 3px;
+}
+
+.status-bar-var-item .variable-tooltip-empty {
+    font-family: var(--font-monospace);
+    font-size: 12px;
+    color: var(--text-error);
+    font-style: italic;
+    font-weight: 500;
+    padding: 3px 6px;
+    background: var(--background-modifier-error-rgb);
+    border-radius: 3px;
+}
+
+.status-bar-tooltip .variable-tooltip-group {
+    margin-top: 12px;
+    padding-top: 8px;
+    border-top: 1px solid var(--background-modifier-border);
+    font-size: 11px;
+    color: var(--text-muted);
+    text-align: center;
+    font-weight: 500;
+}
+
 /* GROUP MANAGEMENT */
 .group-section {
     margin-bottom: 20px;
@@ -986,7 +1133,7 @@ export default class VariablesPlugin extends Plugin {
 		this.injectCSS();
 
 		// Add ribbon icon
-		this.addRibbonIcon('dollar-sign', 'Variables Manager', () => {
+		this.addRibbonIcon('dollar-sign', 'Variable Manager', () => {
 			new VariableManagerModal(this.app, this).open();
 		});
 
@@ -1034,10 +1181,11 @@ export default class VariablesPlugin extends Plugin {
 		if (this.settings.showVariableCount) {
 			this.statusBarItem = this.addStatusBarItem();
 			this.statusBarItem.addClass('clickable-status-item');
-			this.statusBarItem.title = 'Click to open Variables Manager';
+			this.statusBarItem.title = 'Click to open Variable Manager • Hover to see all variables';
 			this.statusBarItem.onclick = () => {
 				new VariableManagerModal(this.app, this).open();
 			};
+			this.setupStatusBarHover();
 			this.updateStatusBar();
 		}
 
@@ -1052,6 +1200,9 @@ export default class VariablesPlugin extends Plugin {
 				}
 			});
 		}
+
+		// Register hover tooltips for variables
+		this.registerHoverTooltips();
 	}
 
 	private autoExtractFromCurrentLine(editor: Editor) {
@@ -1211,6 +1362,325 @@ export default class VariablesPlugin extends Plugin {
 		}
 	}
 
+	setupStatusBarHover() {
+		if (!this.statusBarItem) return;
+
+		this.statusBarItem.addEventListener('mouseenter', () => {
+			this.statusBarHoverTimeout = setTimeout(() => {
+				this.showStatusBarTooltip();
+			}, 300);
+		});
+
+		this.statusBarItem.addEventListener('mouseleave', () => {
+			if (this.statusBarHoverTimeout) {
+				clearTimeout(this.statusBarHoverTimeout);
+				this.statusBarHoverTimeout = null;
+			}
+			
+			// Give user time to move to tooltip (100ms grace period)
+			setTimeout(() => {
+				// Only hide if mouse is not over the tooltip itself
+				if (this.statusBarTooltip && !this.statusBarTooltip.matches(':hover')) {
+					this.hideStatusBarTooltip();
+				}
+			}, 100);
+		});
+	}
+
+	private showStatusBarTooltip() {
+		this.hideStatusBarTooltip();
+
+		const currentVars = this.getCurrentVariables();
+		const entries = Object.entries(currentVars).sort(([a], [b]) => a.localeCompare(b));
+
+		if (entries.length === 0) {
+			return; // No variables to show
+		}
+
+		// Create tooltip element
+		const tooltip = document.createElement('div');
+		tooltip.className = 'variable-tooltip status-bar-tooltip';
+		tooltip.style.cursor = 'pointer';
+		tooltip.title = 'Click to open Variable Manager';
+
+		// Make tooltip clickable
+		tooltip.addEventListener('click', () => {
+			this.hideStatusBarTooltip();
+			new VariableManagerModal(this.app, this).open();
+		});
+
+		// Add header
+		const header = tooltip.createDiv('variable-tooltip-header');
+		header.textContent = `${this.settings.activeGroup} Variables`;
+
+		// Add variables list
+		entries.forEach(([name, value]) => {
+			const varDiv = tooltip.createDiv('status-bar-var-item');
+			
+			const nameSpan = varDiv.createSpan('variable-tooltip-header');
+			nameSpan.textContent = `$${name}`;
+			
+			const valueSpan = varDiv.createSpan();
+			if (value && value.trim() !== '') {
+				valueSpan.className = 'variable-tooltip-value';
+				valueSpan.textContent = value;
+			} else {
+				valueSpan.className = 'variable-tooltip-empty';
+				valueSpan.textContent = '(empty)';
+			}
+		});
+
+		// Add group info footer
+		const footer = tooltip.createDiv('variable-tooltip-group');
+		const definedVars = Object.values(currentVars).filter(v => v !== '').length;
+		const totalVars = Object.keys(currentVars).length;
+		const footerText = `${definedVars}/${totalVars} variables defined`;
+		const interactionHint = entries.length > 8 ? ' • Scroll or click to interact' : ' • Click to manage';
+		footer.textContent = footerText + interactionHint;
+
+		// Position tooltip relative to status bar
+		const statusBarRect = this.statusBarItem.getBoundingClientRect();
+		tooltip.style.left = `${statusBarRect.left}px`;
+		tooltip.style.top = `${statusBarRect.top - 10}px`; // Above status bar
+		tooltip.style.transform = 'translateY(-100%)'; // Position above
+
+		// Setup tooltip hover behavior to keep it open when interacting
+		tooltip.addEventListener('mouseenter', () => {
+			// Keep tooltip open when hovering over it
+		});
+
+		tooltip.addEventListener('mouseleave', () => {
+			// Hide tooltip when leaving tooltip area
+			setTimeout(() => {
+				// Only hide if also not hovering over status bar
+				if (!this.statusBarItem.matches(':hover')) {
+					this.hideStatusBarTooltip();
+				}
+			}, 100);
+		});
+
+		// Add to document
+		document.body.appendChild(tooltip);
+		this.statusBarTooltip = tooltip;
+
+		// Adjust position if tooltip goes off screen
+		const rect = tooltip.getBoundingClientRect();
+		if (rect.left < 0) {
+			tooltip.style.left = '10px';
+		}
+		if (rect.right > window.innerWidth) {
+			tooltip.style.left = `${window.innerWidth - rect.width - 10}px`;
+		}
+		if (rect.top < 0) {
+			// If it goes above screen, show below status bar instead
+			tooltip.style.top = `${statusBarRect.bottom + 10}px`;
+			tooltip.style.transform = 'none';
+		}
+	}
+
+	private hideStatusBarTooltip() {
+		if (this.statusBarTooltip) {
+			this.statusBarTooltip.remove();
+			this.statusBarTooltip = null;
+		}
+	}
+
+	private registerHoverTooltips() {
+		console.log('Variables Plugin: Registering hover tooltips');
+		
+		// Register mouse move event to track hover over variables
+		this.registerDomEvent(document, 'mousemove', (evt: MouseEvent) => {
+			this.handleMouseMove(evt);
+		});
+
+		// Register mouse leave event to hide tooltips
+		this.registerDomEvent(document, 'mouseleave', () => {
+			this.hideTooltip();
+		});
+	}
+
+	private currentTooltip: HTMLElement | null = null;
+	private hoverTimeout: NodeJS.Timeout | null = null;
+	private statusBarTooltip: HTMLElement | null = null;
+	private statusBarHoverTimeout: NodeJS.Timeout | null = null;
+
+	private handleMouseMove(evt: MouseEvent) {
+		// Clear previous timeout
+		if (this.hoverTimeout) {
+			clearTimeout(this.hoverTimeout);
+			this.hoverTimeout = null;
+		}
+
+		// Hide current tooltip if mouse moved away
+		this.hideTooltip();
+
+		// Only check if we're hovering over editor content
+		const target = evt.target as HTMLElement;
+		const editorElement = target.closest('.cm-editor, .markdown-source-view, .cm-content');
+		if (!editorElement) {
+			return;
+		}
+
+		// Set a delay before showing tooltip
+		this.hoverTimeout = setTimeout(() => {
+			this.checkForVariableAtPrecisePosition(evt);
+		}, 300);
+	}
+
+	private checkForVariableAtPrecisePosition(evt: MouseEvent) {
+		// Get the character position under the mouse cursor
+		const charInfo = this.getCharacterAtPosition(evt.clientX, evt.clientY);
+		if (!charInfo) {
+			return;
+		}
+		
+		// Check if this character position is within a variable
+		const variableMatch = this.findVariableAtCharacterPosition(charInfo.textContent, charInfo.offset);
+		
+		if (variableMatch) {
+			console.log('Variables Plugin: Showing tooltip for variable:', variableMatch.name);
+			this.showTooltip(variableMatch.name, evt.clientX, evt.clientY);
+		}
+	}
+
+	private getCharacterAtPosition(x: number, y: number): { textContent: string; offset: number } | null {
+		try {
+			let range: Range | null = null;
+			
+			// Try modern API first (Chrome/Safari)
+			if ((document as any).caretPositionFromPoint) {
+				const caretPos = (document as any).caretPositionFromPoint(x, y);
+				if (caretPos && caretPos.offsetNode) {
+					range = document.createRange();
+					range.setStart(caretPos.offsetNode, caretPos.offset);
+				}
+			}
+			// Fallback to older API (Firefox)
+			else if ((document as any).caretRangeFromPoint) {
+				range = (document as any).caretRangeFromPoint(x, y);
+			}
+			
+			if (!range || !range.startContainer) {
+				console.log('Variables Plugin: No range found at position');
+				return null;
+			}
+			
+			// Get the text content and offset
+			const textNode = range.startContainer;
+			if (textNode.nodeType !== Node.TEXT_NODE) {
+				console.log('Variables Plugin: Not a text node');
+				return null;
+			}
+			
+			const textContent = textNode.textContent || '';
+			const offset = range.startOffset;
+			
+			// Only return if text contains variables
+			if (!textContent.includes('$')) {
+				return null;
+			}
+			
+			return { textContent, offset };
+		} catch (error) {
+			console.log('Variables Plugin: Error getting character position:', error);
+			return null;
+		}
+	}
+
+	private findVariableAtCharacterPosition(text: string, charOffset: number): { name: string } | null {
+		const variableRegex = /\$([A-Za-z_][A-Za-z0-9_]*)/g;
+		let match;
+		
+		// Find all variables in the text
+		while ((match = variableRegex.exec(text)) !== null) {
+			const varStartPos = match.index; // Position of $
+			const varEndPos = match.index + match[0].length; // End of variable name
+			
+			// Check if cursor position is within this variable
+			if (charOffset >= varStartPos && charOffset <= varEndPos) {
+				return { name: match[1] };
+			}
+		}
+		
+		return null;
+	}
+
+
+
+	private showTooltip(variableName: string, x: number, y: number) {
+		// Remove existing tooltip
+		this.hideTooltip();
+
+		// Get variable value
+		const currentVars = this.getCurrentVariables();
+		const value = currentVars[variableName];
+		const hasValue = value !== undefined && value !== '';
+
+		// Create tooltip element
+		const tooltip = document.createElement('div');
+		tooltip.className = 'variable-tooltip';
+		tooltip.style.cursor = 'pointer';
+		tooltip.title = 'Click to open Variable Manager';
+		
+		// Make tooltip clickable to open Variable Manager
+		tooltip.addEventListener('click', () => {
+			this.hideTooltip();
+			new VariableManagerModal(this.app, this).open();
+		});
+		
+		// Add header
+		const header = tooltip.createDiv('variable-tooltip-header');
+		header.textContent = `$${variableName}`;
+		
+		// Add value
+		const valueDiv = tooltip.createDiv();
+		if (hasValue) {
+			valueDiv.className = 'variable-tooltip-value';
+			valueDiv.textContent = value;
+		} else {
+			valueDiv.className = 'variable-tooltip-empty';
+			if (value === undefined) {
+				valueDiv.textContent = '(undefined - not in current group)';
+			} else {
+				valueDiv.textContent = '(empty - click to set value)';
+			}
+		}
+		
+		// Add group info
+		const groupDiv = tooltip.createDiv('variable-tooltip-group');
+		groupDiv.textContent = `Group: ${this.settings.activeGroup}`;
+
+		// Position tooltip
+		tooltip.style.left = `${x + 10}px`;
+		tooltip.style.top = `${y - 10}px`;
+
+		// Add to document
+		document.body.appendChild(tooltip);
+		this.currentTooltip = tooltip;
+
+		// Adjust position if tooltip goes off screen
+		const rect = tooltip.getBoundingClientRect();
+		if (rect.right > window.innerWidth) {
+			tooltip.style.left = `${x - rect.width - 10}px`;
+		}
+		if (rect.bottom > window.innerHeight) {
+			tooltip.style.top = `${y - rect.height - 10}px`;
+		}
+	}
+
+	private hideTooltip() {
+		if (this.currentTooltip) {
+			this.currentTooltip.remove();
+			this.currentTooltip = null;
+		}
+	}
+
+	// Public method for debugging - can be called from console
+	testTooltip(variableName: string = 'TargetIP', x: number = 200, y: number = 200) {
+		console.log('Variables Plugin: Manual tooltip test');
+		this.showTooltip(variableName, x, y);
+	}
+
 	async loadSettings() {
 		const loadedData = await this.loadData();
 		this.settings = Object.assign({}, DEFAULT_SETTINGS, loadedData);
@@ -1237,6 +1707,22 @@ export default class VariablesPlugin extends Plugin {
 		this.updateStatusBar();
 	}
 
+	onunload() {
+		// Clean up tooltips when plugin is unloaded
+		this.hideTooltip();
+		if (this.hoverTimeout) {
+			clearTimeout(this.hoverTimeout);
+			this.hoverTimeout = null;
+		}
+		
+		// Clean up status bar hover
+		this.hideStatusBarTooltip();
+		if (this.statusBarHoverTimeout) {
+			clearTimeout(this.statusBarHoverTimeout);
+			this.statusBarHoverTimeout = null;
+		}
+	}
+
 	private injectCSS() {
 		const style = document.createElement('style');
 		style.textContent = PLUGIN_CSS;
@@ -1248,6 +1734,8 @@ class VariableManagerModal extends Modal {
 	plugin: VariablesPlugin;
 	variablesList: HTMLElement;
 	groupSelector: HTMLSelectElement;
+	addSectionHeader: HTMLElement;
+	variablesSectionHeader: HTMLElement;
 
 	constructor(app: App, plugin: VariablesPlugin) {
 		super(app);
@@ -1259,7 +1747,7 @@ class VariableManagerModal extends Modal {
 		contentEl.empty();
 		contentEl.addClass('variables-modal');
 
-		contentEl.createEl('h2', { text: 'Variables Manager' });
+		contentEl.createEl('h2', { text: 'Variable Manager' });
 
 		// Group management section
 		const groupSection = contentEl.createDiv('group-section');
@@ -1275,6 +1763,7 @@ class VariableManagerModal extends Modal {
 			const selectedGroup = this.groupSelector.value;
 			if (this.plugin.switchToGroup(selectedGroup)) {
 				this.plugin.saveSettings();
+				this.updateSectionHeaders();
 				this.refreshVariableList();
 				this.plugin.updateStatusBar();
 				new Notice(`Switched to group: ${selectedGroup}`);
@@ -1294,7 +1783,7 @@ class VariableManagerModal extends Modal {
 
 		// Add new variable section
 		const addSection = contentEl.createDiv('variable-add-section');
-		addSection.createEl('h3', { text: `Add Variable to "${this.plugin.settings.activeGroup}"` });
+		this.addSectionHeader = addSection.createEl('h3', { text: `Add Variable to "${this.plugin.settings.activeGroup}"` });
 		
 		const addRow = addSection.createDiv('add-row');
 		const nameInput = addRow.createEl('input', { 
@@ -1339,7 +1828,7 @@ class VariableManagerModal extends Modal {
 
 		// Existing variables section
 		const variablesSection = contentEl.createDiv('variables-section');
-		variablesSection.createEl('h3', { text: `Variables in "${this.plugin.settings.activeGroup}"` });
+		this.variablesSectionHeader = variablesSection.createEl('h3', { text: `Variables in "${this.plugin.settings.activeGroup}"` });
 		
 		const headerContainer = variablesSection.createDiv('variables-header');
 		
@@ -1406,12 +1895,22 @@ class VariableManagerModal extends Modal {
 		});
 	}
 
+	updateSectionHeaders() {
+		if (this.addSectionHeader) {
+			this.addSectionHeader.textContent = `Add Variable to "${this.plugin.settings.activeGroup}"`;
+		}
+		if (this.variablesSectionHeader) {
+			this.variablesSectionHeader.textContent = `Variables in "${this.plugin.settings.activeGroup}"`;
+		}
+	}
+
 	showCreateGroupDialog() {
 		new GroupNameModal(this.app, 'Create New Group', 'Enter new group name:', '', (groupName: string) => {
 			if (this.plugin.createGroup(groupName)) {
 				this.plugin.switchToGroup(groupName);
 				this.plugin.saveSettings();
 				this.updateGroupSelector();
+				this.updateSectionHeaders();
 				this.refreshVariableList();
 				this.plugin.updateStatusBar();
 				const templateCount = Object.keys(this.plugin.settings.newGroupTemplate).length;
@@ -1439,6 +1938,7 @@ class VariableManagerModal extends Modal {
 			if (this.plugin.renameGroup(currentGroup, newName)) {
 				this.plugin.saveSettings();
 				this.updateGroupSelector();
+				this.updateSectionHeaders();
 				this.plugin.updateStatusBar();
 				new Notice(`Renamed group to: ${newName}`);
 			} else {
@@ -1460,6 +1960,7 @@ class VariableManagerModal extends Modal {
 				if (this.plugin.deleteGroup(currentGroup)) {
 					this.plugin.saveSettings();
 					this.updateGroupSelector();
+					this.updateSectionHeaders();
 					this.refreshVariableList();
 					this.plugin.updateStatusBar();
 					new Notice(`Deleted group: ${currentGroup}. Switched to Default.`);
@@ -2021,10 +2522,11 @@ class VariablesSettingTab extends PluginSettingTab {
 					if (value && !this.plugin.statusBarItem) {
 						this.plugin.statusBarItem = this.plugin.addStatusBarItem();
 						this.plugin.statusBarItem.addClass('clickable-status-item');
-						this.plugin.statusBarItem.title = 'Click to open Variables Manager';
+						this.plugin.statusBarItem.title = 'Click to open Variable Manager • Hover to see all variables';
 						this.plugin.statusBarItem.onclick = () => {
 							new VariableManagerModal(this.plugin.app, this.plugin).open();
 						};
+						this.plugin.setupStatusBarHover();
 						this.plugin.updateStatusBar();
 					} else if (!value && this.plugin.statusBarItem) {
 						this.plugin.statusBarItem.remove();

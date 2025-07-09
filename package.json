@@ -1,7 +1,7 @@
 {
 	"name": "obsidian-variables",
 	"version": "1.0.0",
-	"description": "Manage variables in notes and commands for Obsidian",
+	"description": "Multi-group variable management with hover tooltips, templates, and seamless substitution for Obsidian",
 	"main": "main.js",
 	"scripts": {
 		"dev": "node esbuild.config.mjs",
@@ -10,7 +10,7 @@
 	},
 	"repository": {
 		"type": "git",
-		"url": "https://github.com/yourusername/obsidian-variables"
+		"url": "https://github.com/Real-Fruit-Snacks/obsidian-variables"
 	},
 	"keywords": [
 		"obsidian",
@@ -25,9 +25,9 @@
 	"author": "Real-Fruit-Snacks",
 	"license": "MIT",
 	"bugs": {
-		"url": "https://github.com/yourusername/obsidian-variables/issues"
+		"url": "https://github.com/Real-Fruit-Snacks/obsidian-variables/issues"
 	},
-	"homepage": "https://github.com/yourusername/obsidian-variables#readme",
+	"homepage": "https://github.com/Real-Fruit-Snacks/obsidian-variables#readme",
 	"devDependencies": {
 		"@types/node": "^16.11.6",
 		"@typescript-eslint/eslint-plugin": "5.29.0",
