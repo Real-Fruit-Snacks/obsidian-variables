@@ -506,9 +506,31 @@ const PLUGIN_CSS = `
 .clickable-status-item {
     cursor: pointer !important;
     transition: opacity 0.2s ease;
+    user-select: none;
+    position: relative;
+    padding-right: 18px !important;
 }
 
 .clickable-status-item:hover {
+    opacity: 0.8;
+}
+
+.clickable-status-item::after {
+    content: '';
+    position: absolute;
+    right: 4px;
+    top: 50%;
+    transform: translateY(-50%);
+    width: 0;
+    height: 0;
+    border-left: 3px solid transparent;
+    border-right: 3px solid transparent;
+    border-top: 3px solid var(--text-muted);
+    opacity: 0.5;
+    pointer-events: none;
+}
+
+.clickable-status-item:hover::after {
     opacity: 0.8;
 }
 
@@ -1126,6 +1148,24 @@ export default class VariablesPlugin extends Plugin {
 		return Object.keys(this.settings.variableGroups).sort();
 	}
 
+	cycleToNextGroup(): boolean {
+		const groups = this.getGroupNames();
+		if (groups.length <= 1) {
+			return false; // No groups to cycle through
+		}
+		
+		const currentIndex = groups.indexOf(this.settings.activeGroup);
+		const nextIndex = (currentIndex + 1) % groups.length;
+		const nextGroup = groups[nextIndex];
+		
+		if (this.switchToGroup(nextGroup)) {
+			this.saveSettings();
+			this.updateStatusBar();
+			return true;
+		}
+		return false;
+	}
+
 	async onload() {
 		await this.loadSettings();
 
@@ -1174,6 +1214,21 @@ export default class VariablesPlugin extends Plugin {
 			editorCallback: (editor: Editor) => this.previewVariables(editor)
 		});
 
+		this.addCommand({
+			id: 'cycle-variable-group',
+			name: 'Cycle to Next Variable Group',
+			callback: () => {
+				if (this.cycleToNextGroup()) {
+					const groups = this.getGroupNames();
+					if (groups.length > 1) {
+						new Notice(`Switched to group: ${this.settings.activeGroup}`);
+					}
+				} else {
+					new Notice('No other groups to cycle to');
+				}
+			}
+		});
+
 		// Settings tab
 		this.addSettingTab(new VariablesSettingTab(this.app, this));
 
@@ -1181,9 +1236,18 @@ export default class VariablesPlugin extends Plugin {
 		if (this.settings.showVariableCount) {
 			this.statusBarItem = this.addStatusBarItem();
 			this.statusBarItem.addClass('clickable-status-item');
-			this.statusBarItem.title = 'Click to open Variable Manager • Hover to see all variables';
+			this.statusBarItem.title = 'Left-click: Variable Manager • Right-click: Cycle groups • Hover: Show all variables';
 			this.statusBarItem.onclick = () => {
 				new VariableManagerModal(this.app, this).open();
+			};
+			this.statusBarItem.oncontextmenu = (e) => {
+				e.preventDefault();
+				if (this.cycleToNextGroup()) {
+					const groups = this.getGroupNames();
+					if (groups.length > 1) {
+						new Notice(`Switched to group: ${this.settings.activeGroup}`);
+					}
+				}
 			};
 			this.setupStatusBarHover();
 			this.updateStatusBar();
@@ -2519,15 +2583,24 @@ class VariablesSettingTab extends PluginSettingTab {
 					this.plugin.settings.showVariableCount = value;
 					await this.plugin.saveSettings();
 					
-					if (value && !this.plugin.statusBarItem) {
-						this.plugin.statusBarItem = this.plugin.addStatusBarItem();
-						this.plugin.statusBarItem.addClass('clickable-status-item');
-						this.plugin.statusBarItem.title = 'Click to open Variable Manager • Hover to see all variables';
-						this.plugin.statusBarItem.onclick = () => {
-							new VariableManagerModal(this.plugin.app, this.plugin).open();
-						};
-						this.plugin.setupStatusBarHover();
-						this.plugin.updateStatusBar();
+									if (value && !this.plugin.statusBarItem) {
+					this.plugin.statusBarItem = this.plugin.addStatusBarItem();
+					this.plugin.statusBarItem.addClass('clickable-status-item');
+					this.plugin.statusBarItem.title = 'Left-click: Variable Manager • Right-click: Cycle groups • Hover: Show all variables';
+					this.plugin.statusBarItem.onclick = () => {
+						new VariableManagerModal(this.plugin.app, this.plugin).open();
+					};
+					this.plugin.statusBarItem.oncontextmenu = (e) => {
+						e.preventDefault();
+						if (this.plugin.cycleToNextGroup()) {
+							const groups = this.plugin.getGroupNames();
+							if (groups.length > 1) {
+								new Notice(`Switched to group: ${this.plugin.settings.activeGroup}`);
+							}
+						}
+					};
+					this.plugin.setupStatusBarHover();
+					this.plugin.updateStatusBar();
 					} else if (!value && this.plugin.statusBarItem) {
 						this.plugin.statusBarItem.remove();
 						this.plugin.statusBarItem = null;

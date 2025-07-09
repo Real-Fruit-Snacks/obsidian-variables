@@ -61,6 +61,7 @@ The Variables plugin revolutionizes how you manage variables in Obsidian by intr
 - **Quick Insert Modal** - Rapid variable insertion with search
 - **Hover Tooltips** - See variable values instantly by hovering over `$variables` in notes
 - **Status Bar Integration** - Shows active group and variable count with hover tooltip
+- **Quick Group Cycling** - Right-click status bar or use Command Palette to switch groups
 - **Empty Variable Highlighting** - Visual indicators for missing values
 - **Variable Manager Ribbon Icon** - Easy access to Variable Manager
 
@@ -139,6 +140,14 @@ Variables use the `$VariableName` format:
 - **Status bar tooltips**: Hover over the status bar to see all variables in the active group
 - **Works everywhere**: Tooltips work in editor view, reading view, and preview mode
 
+### Quick Group Switching
+
+**Switch between variable groups seamlessly**:
+- **Status bar cycling**: Right-click the status bar to cycle through groups
+- **Command palette**: Use "Cycle to Next Variable Group" command
+- **Visual indicator**: Status bar shows a small arrow indicating cycling is available
+- **Instant feedback**: Brief notification shows which group you switched to
+
 ## 🏷️ Multi-Group Management
 
 ### Group Operations
@@ -177,6 +186,7 @@ All variable operations work within the **active group**:
 |---------|-------------|--------|
 | **Open Variable Manager** | Access main interface | Ribbon icon or Command Palette |
 | **Quick Insert Variable** | Fast variable insertion | Command Palette |
+| **Cycle to Next Variable Group** | Switch between variable groups | Command Palette or Status Bar |
 | **Substitute Selection** | Replace variables in selection | Command Palette |
 | **Substitute All in Note** | Replace all variables in note | Command Palette |
 | **Extract Variables** | Auto-detect variables from text | Command Palette |
